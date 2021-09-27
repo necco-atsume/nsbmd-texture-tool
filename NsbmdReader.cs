@@ -53,7 +53,8 @@ namespace rf3lez
         {
             return new ModelContainer() 
             {
-                FileSize = reader.ReadUInt32()
+                Offset = containerOffset,
+                FileSize = reader.ReadUInt32(),
             };
         }
     }
@@ -69,6 +70,7 @@ namespace rf3lez
             }
 
             var container = new TextureContainer();
+            container.Offset = containerOffset;
 
             ExpectPosition("04");
             reader.ReadBytes(8); // Unknown x 8
@@ -89,13 +91,6 @@ namespace rf3lez
             reader.ReadUInt16();
             reader.ReadUInt32();
 
-            /* from gh:
-            UInt32 block2LenShr3 = reader.ReadUInt16();    // block2_len_shr_3
-            container.StripedTextureU32Length = block2LenShr3 << 3;
-
-            reader.ReadBytes(6); // Unknown x 6
-            */
-
             container.StripedTextureU32Offset = reader.ReadUInt32();
             container.StripedTextureU16Offset = reader.ReadUInt32();
 
@@ -112,7 +107,7 @@ namespace rf3lez
 
             // Now populate the name lists.
             // First, textures:
-            // TODO: Roll this into a method.
+            // FIXME: Roll this into a method.
             reader.BaseStream.Seek(containerOffset + container.TextureTableOffset, SeekOrigin.Begin);
             var textureList = new NameList<TextureInfo>();
             reader.ReadBytes(1);
@@ -132,6 +127,7 @@ namespace rf3lez
                 var textureInfo = new TextureInfo();
                 uint textureOffset = reader.ReadUInt16();
                 textureInfo.TextureOffset = textureOffset << 3;
+                textureInfo.AbsoluteTextureOffset = textureInfo.TextureOffset + containerOffset;
                 textureInfo.TextureImageParams = reader.ReadUInt16();
                 textureInfo.MaybeOffset = reader.ReadUInt32(); 
                 textures.Add(textureInfo);
@@ -182,6 +178,7 @@ namespace rf3lez
                 var paletteInfo = new PaletteInfo();
                 UInt32 offsetShr3 = reader.ReadUInt32();
                 paletteInfo.Offset = (offsetShr3) << 3;
+                paletteInfo.AbsolutePaletteOffset = paletteInfo.Offset + containerOffset;
 
                 palettes.Add(paletteInfo);
             }

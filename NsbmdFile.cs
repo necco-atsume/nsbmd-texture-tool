@@ -30,6 +30,7 @@ namespace rf3lez {
 
     public interface INitroContainer {
         public string MagicNumber { get; }
+        UInt32 Offset { get; set; }
     };
 
     public interface IDataBlockLike { 
@@ -50,6 +51,7 @@ namespace rf3lez {
         public byte[] Data { get; set; }
 
         public u32 TextureOffset { get; set; }
+        public u32 AbsoluteTextureOffset { get; set; }
         public u16 TextureImageParams { get; set; }
 
         public u32 MaybeOffset { get; set; }
@@ -62,18 +64,21 @@ namespace rf3lez {
     public class PaletteInfo : IDataBlockLike {
         public byte[] Data { get; set; }
         public u32 Offset { get; set; }
+        public u32 AbsolutePaletteOffset { get; set; }
     }
 
     // We don't care about any of the model contents so just, skip it.
     public class ModelContainer : INitroContainer
     {
         public string MagicNumber => "MDL0";
+        public UInt32 Offset { get; set; }
         public u32 FileSize { get; set; }
     }
 
     public class TextureContainer : INitroContainer 
     {
         public string MagicNumber => "TEX0";
+        public UInt32 Offset { get; set; }
 
         public u16 TextureTableOffset { get; set; }
 
