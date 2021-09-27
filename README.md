@@ -1,6 +1,5 @@
 # NSBMD Texture Tool
-
-(appveyor incoming)
+[![Build status](https://ci.appveyor.com/api/projects/status/hri9qra1k3s6yp4x?svg=true)](https://ci.appveyor.com/project/corick/nsbmd-texture-tool)
 
 ## Tool to edit textures in Nintendo DS .nsbmd and .nsbtx models and textures.
 This is based on file format documentation from https://github.com/scurest/nsbmd_docs
