@@ -101,7 +101,4 @@ namespace rf3lez {
 
         public NameList<TextureInfo> TextureTable { get; set; } = new NameList<TextureInfo>();
     }
-
-
-
 }

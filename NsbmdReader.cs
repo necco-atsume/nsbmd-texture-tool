@@ -107,7 +107,7 @@ namespace rf3lez
 
             // Now populate the name lists.
             // First, textures:
-            // FIXME: Roll this into a method.
+            // FIXME: Roll this into a method. This is a bit "here be dragons."
             reader.BaseStream.Seek(containerOffset + container.TextureTableOffset, SeekOrigin.Begin);
             var textureList = new NameList<TextureInfo>();
             reader.ReadBytes(1);
@@ -126,8 +126,8 @@ namespace rf3lez
             {
                 var textureInfo = new TextureInfo();
                 uint textureOffset = reader.ReadUInt16();
-                textureInfo.TextureOffset = textureOffset << 3;
-                textureInfo.AbsoluteTextureOffset = textureInfo.TextureOffset + containerOffset;
+                textureInfo.TextureOffset = (textureOffset << 3);
+                textureInfo.AbsoluteTextureOffset = textureInfo.TextureOffset + containerOffset + container.TextureOffset;
                 textureInfo.TextureImageParams = reader.ReadUInt16();
                 textureInfo.MaybeOffset = reader.ReadUInt32(); 
                 textures.Add(textureInfo);
@@ -148,7 +148,7 @@ namespace rf3lez
                 tex.Width = width;
                 tex.Height = height;
 
-                reader.BaseStream.Seek(containerOffset + tex.TextureOffset, SeekOrigin.Begin);
+                reader.BaseStream.Seek(tex.AbsoluteTextureOffset, SeekOrigin.Begin);
 
                 tex.Data = reader.ReadBytes(textureLength);
             }

@@ -17,15 +17,6 @@ namespace rf3lez
 
         public static int FormatToLength(ushort p, out int imageType, out int width, out int height)
         {
-            /*
-            ushort widthMask  = 0b0000_111_000_0000_0_0;
-            var widthShift = 9;
-            ushort heightMask = 0b0000_000_111_0000_0_0;
-            var heightShift = 6;
-            ushort imageTypeMask = 0b0000_000_000_1111_0_0;
-            var imageTypeShift = 2;
-            */
-            //                       -cfffhhhwwww---- 
             ushort widthMask     = 0b0000000001110000;
             ushort heightMask    = 0b0000001110000000;
             ushort imageTypeMask = 0b0001110000000000;

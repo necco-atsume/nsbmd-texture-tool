@@ -137,11 +137,6 @@ namespace rf3lez
             });
 
             root.Invoke(args);
-
-            //root.Invoke(new string[] { "dump", "--source", "micah_swimsuit.nsbmd", "--output", "./bmp" });
-
-            //root.Invoke(new string[] { "insert", "--source", "micah_swimsuit.nsbmd", "--texture", "bmp/PC00_S2_Updated.bmp", "--output", "updated.nsbmd", "--name", "PC00_S2" });
-            //root.Invoke(new string[] { "dump", "--source", "updated.nsbmd", "--output", "./bmp_roundtrip" });
         }
     }
 }
