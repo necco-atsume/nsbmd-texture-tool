@@ -8,7 +8,7 @@ This is based on file format documentation from https://github.com/scurest/nsbmd
 This was designed for a specific romhack, so note that it only supports one of the eight or so possible image formats. You may need to tweak this a bit before it will round-trip your specific nsbmd file. 
 
 ## Usage:
-First, install the [https://dotnet.microsoft.com/download/dotnet/5.0/runtime](.NET Core 5.0 Runtime)
+First, install the (.NET Core 5.0 Runtime)[https://dotnet.microsoft.com/download/dotnet/5.0/runtime]
 
 ### Dump Textures As BMPs
 `nsbmd-texture-tool.exe dump --source (source file) --output (destination folder) [--json]`
@@ -29,7 +29,7 @@ example: `./nsbmd-texture-tool.exe --source model.nsbmd --texture edited/TEX01.b
 
 ## Editing the Output Files:
 You will need to use an image editor that supports editing 256 color bitmaps.
-Aesprite, or other similar pixel art editors should work.
+Aseprite, or other similar pixel art editors should work.
 Note that currently the palette isn't updated when replacing a texture.
 
 ## Compiling
