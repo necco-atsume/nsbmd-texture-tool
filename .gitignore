@@ -2,6 +2,7 @@
 micah.json
 micah_swimsuit.nsbmd
 bsuit.pal
+*.bmp
 # From .NET Core 3.0 you can use the command: `dotnet new gitignore` to generate a customizable .gitignore file
 
 *.swp

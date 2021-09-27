@@ -172,13 +172,14 @@ namespace rf3lez
 
             List<PaletteInfo> palettes = new List<PaletteInfo>();
             var paletteLenBytes = paletteList.NamesCount == 0 ? 0 : container.PaletteDataLength / paletteList.NamesCount;
+            Utils.Expect(paletteLenBytes == 512, "256color, 16bpp bgr");
 
             for(int i = 0; i < paletteList.NamesCount; i++) 
             {
                 var paletteInfo = new PaletteInfo();
                 UInt32 offsetShr3 = reader.ReadUInt32();
-                paletteInfo.Offset = (offsetShr3) << 3;
-                paletteInfo.AbsolutePaletteOffset = paletteInfo.Offset + containerOffset;
+                paletteInfo.Offset = ((offsetShr3) << 3) + container.PaletteDataOffset;
+                paletteInfo.AbsolutePaletteOffset = paletteInfo.Offset + + containerOffset;
 
                 palettes.Add(paletteInfo);
             }

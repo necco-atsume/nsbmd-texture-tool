@@ -35,7 +35,7 @@ namespace rf3lez
                 new Option<FileInfo>("--texture", description: "the updated texture, as a 256 color bmp. palette data will be ignored") { IsRequired = true },
                 new Option<FileInfo>("--output", description: "the output NSBMD file path") { IsRequired = true },
                 // TODO: Infer name from filename here?
-                new Option<string>("--texture-name", description: "the texture name to replace, as it appears in the section (ie: PC00_S2)") { IsRequired = true },
+                new Option<string>("--name", description: "the texture name to replace, as it appears in the section (ie: PC00_S2)") { IsRequired = true },
             };
 
             var root = new RootCommand("NSBMD Texture Dumper")
@@ -44,21 +44,21 @@ namespace rf3lez
                 insert
             };
 
-            dump.Handler = CommandHandler.Create<FileInfo, DirectoryInfo, bool>((source, dest, json) => {
+            dump.Handler = CommandHandler.Create<FileInfo, DirectoryInfo, bool>((source, output, json) => {
 
                 using (var reader = new BinaryReader(source.OpenRead()))
                 {
                     var nitroReader = new NitroReader();
                     var nitroFile = nitroReader.Parse(reader);
 
-                    if (!dest.Exists) {
-                        dest.Create();
+                    if (!output.Exists) {
+                        output.Create();
                     }
 
                     if (json) 
                     {
                         var jsonText = JsonConvert.SerializeObject(nitroFile, Formatting.Indented);
-                        var destinationFile = Path.Combine(dest.FullName, source.Name + ".json");
+                        var destinationFile = Path.Combine(output.FullName, source.Name + ".json");
                         File.WriteAllText(destinationFile, jsonText);
                     } else 
                     {
@@ -96,7 +96,7 @@ namespace rf3lez
                         // Save each bitmap.
                         foreach (var bitmap in bitmaps)
                         {
-                            var bmpDestiation = new FileInfo(Path.Combine(dest.FullName, $"{bitmap.Key}.bmp"));
+                            var bmpDestiation = new FileInfo(Path.Combine(output.FullName, $"{bitmap.Key}.bmp"));
                             bitmap.Value.Save(bmpDestiation.FullName);
                         }
                     }
@@ -136,9 +136,12 @@ namespace rf3lez
                 
             });
 
-            //root.Invoke(args);
+            root.Invoke(args);
 
-            root.Invoke(new string[] { "dump" });
+            //root.Invoke(new string[] { "dump", "--source", "micah_swimsuit.nsbmd", "--output", "./bmp" });
+
+            //root.Invoke(new string[] { "insert", "--source", "micah_swimsuit.nsbmd", "--texture", "bmp/PC00_S2_Updated.bmp", "--output", "updated.nsbmd", "--name", "PC00_S2" });
+            //root.Invoke(new string[] { "dump", "--source", "updated.nsbmd", "--output", "./bmp_roundtrip" });
         }
     }
 }
